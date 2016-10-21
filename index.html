@@ -1,0 +1,306 @@
+﻿<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+</head>
+<body>
+
+<style>
+	div, ul, li {
+		min-height: 2.5em;
+		list-style: none;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.category {
+		margin: .5em 0;
+		line-height: 2em;
+		background: white;
+		border-radius: .75em;
+		box-shadow: skyblue 0px 0px 20px -2px;
+	}
+	.none {
+		display: none;
+	}
+	.model {
+		display: none;
+	}
+	.step {
+		margin: .5em 0;
+		overflow: hidden;
+		border-radius: .75em;
+		box-shadow: gray 0px 0px 20px -2px;
+	}
+	.code-active {
+		box-shadow: lime 0px 0px 20px -2px;
+	}
+	.code-step-next {
+		line-height: 2.5em;
+		cursor: pointer;
+	}
+	
+	.code-step-new {
+		box-shadow: teal 0px 0px 20px -2px;
+	}
+	.code-re-sult {
+		box-shadow: pink 0px 0px 20px -2px;
+	}
+	.step-instruct {
+		float: left;
+		min-height: 2.75em;
+		line-height: 2.75em;
+		padding: 0 .75em;
+	}
+	.code-step:first-child {
+		border-left: none;
+	}
+	
+	input {
+		width: 5em;
+	}
+	
+	.param-left {
+		float: left;
+	}
+	.param-right {
+		float: right;
+	}
+	.name {
+		text-align: center;
+		border-bottom: solid 1px #DDD;
+		min-height: 1em;
+		margin-bottom: .5em;
+	}
+</style>
+
+<div class="code">
+	<div class="name">
+		Main
+	</div>
+	<div class="param-left">
+		<span class="param-left-name">left</span> = <input value="">
+	</div>
+	<div class="param-right">
+		<span class="param-right-name">right</span> = <input value="">
+	</div>
+	<ul class="sub">
+		<li class="grid code-step-next"><span class="code-result"></span> &darr; <span class="code-result-right"></li>
+	</ul>
+</div>
+
+<style>
+	.grid {
+		text-align: center;
+	}
+	.gridable {
+		display: inline-block;
+		min-width: 2em;
+		width: 25%;
+		m-ax-width: 10em;
+	}
+	.rel {
+		position: relative;
+	}
+	.ux {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	a {
+		text-decoration: none;
+		color: #222;
+	}
+	.data-number {
+		max-width: 40em;
+	}
+	.ux .category {
+		box-shadow: lime 0px 0px 20px -2px;
+	}
+	.top .category {
+		box-shadow: skyblue 0px 0px 20px -2px;
+	}
+	.code-step-if .step {
+		width: 45%;
+	}
+</style>
+
+<div class="model">	
+	<div class="step-instruct">
+		&rarr;
+	</div>
+	<li class="grid step code-step">
+	</li>
+	<li class="grid code-step-next">
+		<span class="code-result"></span> &darr; <span class="code-result-right">
+	</li>
+	<ul class="grid code-step-if">
+		&#8601; &#8600;<br>
+		<li class="gridable step if-left">True</li>
+		<li class="gridable step if-right">False</li>
+	</ul>
+	
+	
+	<ul class="grid symbol menu">
+		<li class="gridable category symbol-new">
+			New
+		</li>
+	</ul>
+	
+	<ul class="grid action menu">
+		<li class="gridable category action-operator">
+			New
+		</li>
+		<li class="gridable category action-operator">
+			is
+		</li>
+		<li class="gridable category action-operator">
+			add
+		</li>
+		<li class="gridable category action-operator">
+			subtract
+		</li>
+		<li class="gridable category action-operator">
+			multiply
+		</li>
+		<li class="gridable category action-operator">
+			divide
+		</li>
+		<li class="gridable category action-operator">
+			or
+		</li>
+		<li class="gridable category action-operator">
+			?
+		</li>
+		<li class="gridable category action-operator">
+			and
+		</li>
+	</ul>
+	
+	<ul class="grid data menu">
+		<a href="#" class="gridable category"><li>
+			Binary
+		</li></a>
+		<a href="#.data-numbers" class="gridable category"><li>
+			Numbers
+		</li></a>
+		<a href="#" class="gridable category"><li>
+			Text
+		</li></a>
+		<a href="#" class="gridable category"><li>
+			Objects
+		</li></a>
+	</ul>
+	
+	<ul class="grid data-numbers menu">
+		<li class="gridable category data-number">7</li>
+		<li class="gridable category data-number">8</li>
+		<li class="gridable category data-number">9</li>
+		<li class="gridable category data-number">4</li>
+		<li class="gridable category data-number">5</li>
+		<li class="gridable category data-number">6</li>
+		<li class="gridable category data-number">1</li>
+		<li class="gridable category data-number">2</li>
+		<li class="gridable category data-number">3</li>
+		<li class="gridable category data-number">0</li>
+	</ul>
+</div>
+
+<div class="ux">
+<div class="rel">
+	<ul class="grid top">
+		<a href="#.symbol" class="gridable category"><li>
+			Symbol
+		</li></a>
+		<a href="#.action" class="gridable category"><li>
+			Action
+		</li></a>
+		<a href="#.data" class="gridable category"><li>
+			Data
+		</li></a>
+	</ul>
+	<ul id="menu" class="grid"></ul>
+</div>
+</div>
+
+<script src="ychacks/runtime.js">
+</script>
+<script src="ychacks/interpreter.js">
+</script>
+<script>
+function mkLit(v) {
+    return {type: 'literal', value: v};
+}
+function mkVar(name) {
+    return {type: 'variable', name: name};
+}
+function mkCall(e, slot) {
+    return {type: 'call', receiver: e, slot: slot};
+}
+function mkExtend(e, name, bindings) {
+    return {type: 'extend', base: e, name: name, bindings: bindings};
+}
+function makeApp1(e, arg) {
+    return mkCall(mkExtend(e, null, {'$arg1': arg}), '$()');
+}
+function add(e1, e2) {
+    return makeApp1(mkCall(e1, '$+'), e2);
+}
+var a = mkLit(42);
+var b = add(a, a);
+
+var act = add(mkLit(3), mkLit(4));
+
+var c = mkCall(mkExtend(mkLit(rootBob), 'main',  // XXX '$main'
+                        {
+							'$three': mkExtend(mkLit(rootBob), 'me', {
+										'$x': mkLit(3),
+                                        '$xx': add(
+													mkCall(mkVar('me'), '$x'),
+													mkCall(mkVar('me'), '$x')
+												)
+										}
+									),
+                         '$four': mkExtend(mkCall(mkVar('main'), '$three'), null,
+                                           {'$x': mkLit(4)}),
+                         '$result': add(mkCall(mkCall(mkVar('main'), '$three'), '$xx'),
+                                        mkCall(mkCall(mkVar('main'), '$four'), '$xx'))
+						}),
+               '$result');
+</script>
+<script>
+	var lang = {};
+	lang.action = {};
+	lang.action.add = function(a, b){
+		return {
+			value: a.value + b.value
+			,type: a.type || b.type
+		};
+	}
+	lang.action.subtract = function(a, b){
+		return {
+			value: a.value - b.value
+			,type: a.type || b.type
+		};
+	}
+	lang.action.multiply = function(a, b){
+		return {
+			value: a.value * b.value
+			,type: a.type || b.type
+		};
+	}
+	lang.action.divide = function(a, b){
+		return {
+			value: a.value / b.value
+			,type: a.type || b.type
+		};
+	}
+</script>
+<script src="../jquery.js"></script>
+<script src="../kiwi/kiwi.js"></script>
+<script src="../theory/theory.js">theory.com.off=true;</script>
+<script src="ux.js"></script>
+<script src="factorial.js"></script>
+</body>
+</html>

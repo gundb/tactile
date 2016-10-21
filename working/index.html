@@ -1,0 +1,186 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+</head>
+<body>
+
+<style>
+	div, ul, li {
+		min-height: 2.5em;
+		list-style: none;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+	.none {
+		display: none;
+	}
+	.model {
+		display: none;
+	}
+	.code-step {
+		margin: .5em 0;
+		line-height: 2em;
+		border-radius: .75em;
+		box-shadow: lime 0px 0px 20px -2px;
+	}
+</style>
+
+<div class="code">
+	<ul class="sub">
+	
+	</ul>
+	<div class="grid code-step-new category">
+		New Step
+	</div>
+	<div class="grid code-result category">
+		Run!
+	</div>
+</div>
+
+<div class="model">
+	<li class="grid code-step">
+		
+	</li>
+</div>
+<style>
+	.grid {
+		text-align: center;
+	}
+	.gridable {
+		display: inline-block;
+		min-width: 2em;
+		width: 25%;
+		m-ax-width: 10em;
+	}
+	
+	.category {
+		margin: .5em 0;
+		line-height: 2em;
+		border-radius: .75em;
+		box-shadow: skyblue 0px 0px 20px -2px;
+	}
+	.rel {
+		position: relative;
+	}
+	.ux {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+</style>
+<div class="ux">
+<div class="rel">
+<ul class="grid">
+	<li class="gridable category">
+		Symbol
+		<ul class="sub none">
+			<li class="gridable category">
+				New
+			</li>
+		</ul>
+	</li>
+	<li class="gridable category">
+		Action
+		<ul class="sub none">
+			<li class="gridable category action-operator">
+				New
+			</li>
+			<li class="gridable category action-operator">
+				=
+			</li>
+			<li class="gridable category action-operator">
+				+
+			</li>
+			<li class="gridable category action-operator">
+				-
+			</li>
+			<li class="gridable category action-operator">
+				*
+			</li>
+			<li class="gridable category action-operator">
+				/
+			</li>
+			<li class="gridable category action-operator">
+				|
+			</li>
+			<li class="gridable category action-operator">
+				&
+			</li>
+		</ul>
+	</li>
+	<li class="gridable category">
+		Data
+		<ul class="sub none">
+			<li class="gridable category">
+				Numbers
+				<ul class="sub none">
+					<li class="category data-numbers">0</li>
+					<li class="category data-numbers">1</li>
+					<li class="category data-numbers">2</li>
+					<li class="category data-numbers">3</li>
+					<li class="category data-numbers">4</li>
+					<li class="category data-numbers">5</li>
+					<li class="category data-numbers">6</li>
+					<li class="category data-numbers">7</li>
+					<li class="category data-numbers">8</li>
+					<li class="category data-numbers">9</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>
+
+<script src="ychacks/runtime.js">
+</script>
+<script src="ychacks/interpreter.js">
+</script>
+<script>
+function mkLit(v) {
+    return {type: 'literal', value: v};
+}
+function mkVar(name) {
+    return {type: 'variable', name: name};
+}
+function mkCall(e, slot) {
+    return {type: 'call', receiver: e, slot: slot};
+}
+function mkExtend(e, name, bindings) {
+    return {type: 'extend', base: e, name: name, bindings: bindings};
+}
+function makeApp1(e, arg) {
+    return mkCall(mkExtend(e, null, {'$arg1': arg}), '$()');
+}
+function add(e1, e2) {
+    return makeApp1(mkCall(e1, '$+'), e2);
+}
+var a = mkLit(42);
+var b = add(a, a);
+
+var act = add(mkLit(3), mkLit(4));
+
+var c = mkCall(mkExtend(mkLit(rootBob), 'main',  // XXX '$main'
+                        {
+							'$three': mkExtend(mkLit(rootBob), 'me', {
+										'$x': mkLit(3),
+                                        '$xx': add(
+													mkCall(mkVar('me'), '$x'),
+													mkCall(mkVar('me'), '$x')
+												)
+										}
+									),
+                         '$four': mkExtend(mkCall(mkVar('main'), '$three'), null,
+                                           {'$x': mkLit(4)}),
+                         '$result': add(mkCall(mkCall(mkVar('main'), '$three'), '$xx'),
+                                        mkCall(mkCall(mkVar('main'), '$four'), '$xx'))
+						}),
+               '$result');
+</script>
+<script src="../../jquery.js"></script>
+<script src="../../theory/theory.js"></script>
+<script src="ux.js"></script>
+</body>
+</html>

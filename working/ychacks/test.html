@@ -1,0 +1,37 @@
+<script src="runtime.js">
+</script>
+<script src="interpreter.js">
+</script>
+<script>
+function mkLit(v) {
+    return {type: 'literal', value: v};
+}
+function mkVar(name) {
+    return {type: 'variable', name: name};
+}
+function mkCall(e, slot) {
+    return {type: 'call', receiver: e, slot: slot};
+}
+function mkExtend(e, name, bindings) {
+    return {type: 'extend', base: e, name: name, bindings: bindings};
+}
+function makeApp1(e, arg) {
+    return mkCall(mkExtend(e, null, {'$arg1': arg}), '$()');
+}
+function add(e1, e2) {
+    return makeApp1(mkCall(e1, '$+'), e2);
+}
+var a = mkLit(42);
+var b = add(a, a);
+
+var c = mkCall(mkExtend(mkLit(rootBob), 'main',  // XXX '$main'
+                        {'$three': mkExtend(mkLit(rootBob), 'me',
+                                            {'$x': mkLit(3),
+                                             '$xx': add(mkCall(mkVar('me'), '$x'),
+                                                        mkCall(mkVar('me'), '$x'))}),
+                         '$four': mkExtend(mkCall(mkVar('main'), '$three'), null,
+                                           {'$x': mkLit(4)}),
+                         '$result': add(mkCall(mkCall(mkVar('main'), '$three'), '$xx'),
+                                        mkCall(mkCall(mkVar('main'), '$four'), '$xx'))}),
+               '$result');
+</script>

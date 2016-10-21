@@ -1,0 +1,68 @@
+example of definitions:
+{'factorial': {type: 'function',
+               left: 'x',
+               right: 'y',
+               body: [
+`                     {type: 'if',
+                       test: [{type: 'variable', name: 'y'},
+                              {type: 'operator', name: '='},
+                              {type: 'literal', value: 0}],
+                       ifTrue: 'Front',
+                       ifFalse: 'Back'}
+                      ]},
+ 'front': {type: 'block',
+           body: [
+                  {type: 'expression',
+                   expression: [{type: 'literal',
+                                 value: 1}]}
+                ]}
+'back': ...
+}
+
+
+definitions = {name: function_or_block}
+
+env         = {variable_name: value}
+              where the special variable '$result' is for the result
+              from the previous chunk.
+
+function = Function(left, right, body)        {type: 'function',
+                                               left: 'a', 
+                                               right: 'b',
+                                               body: [chunk1, chunk2]}
+block = Block(body)                           {type: 'block',
+                                               body: [chunk1, chunk2]}
+
+chunk = If(test, ifTrue, ifFalse)             {type: 'if',
+                                               test: expr1,
+                                               ifTrue: 'alice',
+                                               ifFalse: 'bob'}
+      | Expression(expr)                      {type: 'expression',
+                                               expression: [atom1, atom2, atom3]}
+      | Assignment(target, expr)              {type: 'assignment',
+                                               target: 'bob',
+                                               expression: [atom1, atom2, atom3]}
+
+atom = Variable(name)                         {type: 'variable', name: 'thisismyname'}
+     | Literal(value)                         {type: 'literal', value: 42}
+     | Operator(name)                         {type: 'operator', name: 'thisismyname'}
+
+
+So how do we run a program?
+
+Call this:
+trampoline(evalChunk(chunk, definitions, env, null)) ==> result_env or exception
+(result_env will have '$result' as a key if the chunk is an
+expression. If the chunk is an 'if' or an assignment, then '$result'
+is not defined, currently.)
+
+
+
+Single-step: to be figured out.
+
+
+
+e.g.:
+  [2, '+', 3, '*', 4] ==> [5, '*', 4] ==> [20]
+
+ ['something', 'Factorial', 'n']
